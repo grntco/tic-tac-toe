@@ -13,12 +13,18 @@ body {
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 96px);
     border: 1px solid black;
-    height: 256px;
-    width: 256px;
+    /* height: 256px; */
+    /* width: 256px; */
 }
 
 .grid-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid black;
+    height: 96px;
+
+
 }
