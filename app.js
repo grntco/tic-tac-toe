@@ -4,7 +4,7 @@ const gameboard = (() => {
 
     const render = function() {
         for (let i = 0; i < arr.length; i++) {
-            gridItems[i].textContent = arr[i];
+            gridItems[i].innerHTML = arr[i];
         }
     }
 
@@ -20,7 +20,7 @@ const createPlayer = (name, mark) => {
     let points = 0;
 
     const placeMark = (e) => {
-        if (!e.target.textContent) {
+        if (!e.target.innerHTML) {
             let index = [...gameboard.gridItems].indexOf(e.target);
             gameboard.arr.splice(index, 1, game.getActivePlayer().mark);
             gameboard.render();
@@ -34,10 +34,10 @@ const createPlayer = (name, mark) => {
     return { name, mark, points, placeMark }
 };
 
-const player1 = createPlayer('Grant', 'X');
-const player2 = createPlayer('Hal', 'O');
-
 const game = (() => {
+
+    const player1 = createPlayer('Grant', '<i class="fa-solid fa-x"></i>');
+    const player2 = createPlayer('Hal', '<i class="fa-solid fa-o"></i>');
 
     let activePlayer = player1;
 
