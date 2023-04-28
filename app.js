@@ -11,7 +11,7 @@ const gameboard = (() => {
     const reset = function() {
         arr.fill('')
         render();
-    } //this isn't rendering for some reason...
+    }
 
     return { arr, gridItems, render, reset }; //Don't need to return arr, just doing so for now
 })();
@@ -24,20 +24,19 @@ const createPlayer = (name, mark) => {
             let index = [...gameboard.gridItems].indexOf(e.target);
             gameboard.arr.splice(index, 1, game.getActivePlayer().mark);
             gameboard.render();
-            if (game.checkRoundOver(game.getActivePlayer().mark)) {
-                game.checkRoundOver(game.getActivePlayer().mark).endRound();
+            if (!game.checkPlay(game.getActivePlayer().mark)) {
+                game.switchTurns();
             }
-            game.switchTurns();
         }
     }
 
     return { name, mark, points, placeMark }
 };
 
-const game = (() => {
+const player1 = createPlayer('Grant', '<i class="fa-solid fa-x"></i>');
+const player2 = createPlayer('Hal', '<i class="fa-solid fa-o"></i>');
 
-    const player1 = createPlayer('Grant', '<i class="fa-solid fa-x"></i>');
-    const player2 = createPlayer('Hal', '<i class="fa-solid fa-o"></i>');
+const game = (() => {
 
     let activePlayer = player1;
 
@@ -47,7 +46,7 @@ const game = (() => {
 
     const getActivePlayer = () => activePlayer;
 
-    const checkRoundOver = (mark) => {
+    const checkPlay = (mark) => {
         let board = gameboard.arr;
 
         const winningPatterns = [
@@ -61,44 +60,38 @@ const game = (() => {
             board[2] === mark && board[4] === mark && board[6] === mark
         ];
 
+        let roundWon = winningPatterns.includes(true);
+        let roundTie = winningPatterns.every(pattern => pattern === false) && board.every(mark => mark !== '');
 
-        let roundWin = winningPatterns.includes(true);
-        let tie = winningPatterns.every(pattern => pattern === false) && board.every(mark => mark !== '')
+        const isGameOver = () => {
+            return activePlayer.points === 3;
+        };
 
-        // console.log(roundWin);
-        // console.log(tie);
-
-        const endRound = () => {
-            if (roundWin) {
-                activePlayer.points += 1;
-                console.log(`${activePlayer.name} wins this round! Their score is now ${activePlayer.points}`);
-                setTimeout(() => {
-                    gameboard.reset();
-                }, 5000);
-            } else if (tie) {
-                console.log(`Tie game!`)
+        const isRoundOver = () => {
+            if (!roundWon && !roundTie) {
+                return false
+            } else {
+                if (roundTie) {
+                    console.log(`Tie round!`)
+                } else if (roundWon) {
+                    activePlayer.points += 1;
+                    if (isGameOver()) {
+                        console.log(`${activePlayer.name} wins the game!`);
+                    } else {
+                        console.log(`${activePlayer.name} wins this round! Their score is now ${activePlayer.points}`);
+                    }
+                }
+                gameboard.reset();
+                return true;
             }
-        }        
-        return { endRound }
-        // return roundWin || tie;  
+        }
+
+        return isRoundOver();
     }
-
-
-    // const endRound = () => { 
-    //     if (checkRoundOver(activePlayer.mark)) {
-    //         printRoundWinner();
-    //     }
-    // }
 
     gameboard.gridItems.forEach(item => {
         item.addEventListener('click', activePlayer.placeMark);
     });
 
-    const end = () => {
-        if (activePlayer.points === 3) {
-            console.log(`${activePlayer.name} wins the game!`)
-        }
-    } // ?? Is this where this should go ??
-
-    return { switchTurns, getActivePlayer, checkRoundOver }
+    return { switchTurns, getActivePlayer, checkPlay }
 })();

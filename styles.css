@@ -5,7 +5,7 @@
 }
 
 :root {
-    --border: 2px solid #a1a1aa;
+    --border: 3px solid #a1a1aa;
     --bg-color: #e4e4e7;
     --txt-color: #a1a1aa;
 }
@@ -30,7 +30,6 @@ body {
 .grid-container :nth-child(3n + 2) {
     border-left: var(--border);
     border-right: var(--border);
-    /* background-color: red; */
 }
 
 .grid-container :nth-child(n+4):nth-child(-n+6) {
@@ -42,6 +41,5 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* border: 1px solid black; */
     height: 96px;
 }
