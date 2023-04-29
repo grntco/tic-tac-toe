@@ -8,24 +8,54 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link href="https://api.fontshare.com/v2/css?f[]=pally@400,700,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
     <title>Tic Tac Toe</title>
   </head>
   <body>
-    <div class="grid-container">
-      <div class="grid-item"></div>
-      <div class="grid-item"></div>
-      <div class="grid-item"></div>
-      <div class="grid-item"></div>
-      <div class="grid-item"></div>
-      <div class="grid-item"></div>
-      <div class="grid-item"></div>
-      <div class="grid-item"></div>
-      <div class="grid-item"></div>
+    <div class="header">
+        <h1>Tic Tac Toe</h1>
     </div>
-    <div class="score-container">
-        
+    <div class="form-container">
+        <form action="">
+            <ul>
+                <li>
+                    <label for="player1-name">Player 1:</label>
+                    <input type="text" name="player1-name" id="player1-name" autocomplete="off"/>
+                </li>
+                <li>
+                    <label for="player2-name">Player 2:</label>
+                    <input type="text" name="player2-name" id="player2-name" autocomplete="off"/>
+                </li>
+            </ul>
+        </form>
+        <button>Start!</button>
+    </div>
+    <div class="grid-container">
+        <div class="grid">
+            <div class="grid-item"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item"></div>
+        </div>
+        <div class="glass"></div>
+    </div>
+    <div class="scoreboard card">
+        <div class="score-container">
+            <h3>Player One</h3>
+            <p class="score "id="player1-score">0</p>
+        </div>
+        <h2 class="round">Round One</h2>
+        <div class="score-container">
+            <h3>Player Two</h3>
+            <p class="score" id="player2-score">0</p>
+        </div>
     </div>
   </body>
 </html>
