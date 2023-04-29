@@ -33,8 +33,8 @@ const createPlayer = (name, mark) => {
     return { name, mark, points, placeMark }
 };
 
-const player1 = createPlayer('Grant', '🤖');
-const player2 = createPlayer('Hal', '👽');
+const player1 = createPlayer('Grant', '<i class="fa-solid fa-x"></i>');
+const player2 = createPlayer('Hal', '<i class="fa-solid fa-o"></i>');
 
 const game = (() => {
 

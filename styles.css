@@ -4,14 +4,22 @@
     box-sizing: border-box;
     font-size: 22px;
     font-family: 'Pally', sans-serif;
+    font-weight: 400;
 }
 
 :root {
-    --border: 3px solid #a1a1aa;
-    --body-bg: #fafafa;
-    --bg-gradient: linear-gradient(306deg, rgba(228,228,231,.8) 0%, rgba(232,232,234,.8) 50%, rgba(250,250,250,.8) 100%);;
-    --sec-bg-color: black;
-    --txt-color: #52525b;
+    --grid-border: 3px solid #fafafa;
+    /* --border: 3px solid #3f3f46; */
+    --sec-border: 3px solid #09090b;
+    --body-bg: #4d7c0f;
+    --sec-bg-color: #3f3f46;
+    --input-bg-color: #71717a;
+    --board-bg-color: #987554;
+    --txt-color: #fafafa;
+    --sec-txt-color: #3f3f46;
+    --btn-bg-color: #fafafa;
+    --shadow: 2px 4px 8px rgba(0, 0, 0, 0.5);
+    --shadow-inset: inset 0px 2px 10px 2px rgba(0, 0, 0, 0.5);
 }
 
 body {
@@ -27,19 +35,73 @@ body {
 /* Header */
 
 .header {
-    margin-top: 16px;
+    margin-top: 48px;
 }
 
 .header h1 {
     font-size: 4rem;
+    text-shadow: var(--shadow);
+    font-weight: 900;
+}
+
+/* Board */
+.board-container {
+    padding: 12px;
+    background-color: var(--board-bg-color);
+    border: var(--sec-border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+.board {
+    min-height: 548px;
+    min-width: 720px;
+    padding: 48px;
+    border: var(--sec-border);
+    border-radius: 12px;
+    background-color: var(--sec-bg-color);
+    box-shadow: var(--shadow-inset);
+}
+
+/* Grid */
+
+.grid-container {
+    display: flex;
+    justify-content: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 96px);
+}
+
+.grid:hover {
+    cursor: pointer;
+}
+
+.grid :nth-child(3n + 2) {
+    border-left: var(--grid-border);
+    border-right: var(--grid-border);
+}
+
+.grid :nth-child(n+4):nth-child(-n+6) {
+    border-top: var(--grid-border);
+    border-bottom: var(--grid-border);
+}
+
+.grid-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 96px;
 }
 
 /* Form */
 .form-container {
-    margin-top: 16px;
+    margin-top: 48px;
     display: flex;
     align-items: center;
-    /* padding: 24px; */
+    justify-content: center;
     gap: 16px;
 }
 
@@ -52,7 +114,8 @@ body {
 
 .form-container li {
     display: flex;
-    gap: 8px;
+    justify-content: space-between;
+    gap: 16px;
 }
 
 .form-container label {
@@ -61,76 +124,10 @@ body {
 
 .form-container input {
     outline: none;
-    border: var(--border);
-}
-
-.form-container button {
-    height: 96px;
-    width: 96px;
-    border-radius: 50%;
-    border: var(--border);
-    color: var(--txt-color)
-}
-
-.form-container button:hover {
-    border-color: black;
-    color: black;
-    cursor: pointer;
-}
-
-/* Grid */
-.glass {
-    background: var(--bg-gradient);
-    filter: blur(4px);
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: -1;
-    border-radius: 24px;
-}
-
-.grid-container {
-    margin-top: 48px;
-    padding: 48px;
-    border: var(--border);
-    border-radius: 24px;
-    /* background: var(--body-bg);
-    filter: blur(4px); */
-    position: relative; /* For glass effect */
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 96px);
-    /* height: 256px; */
-    /* width: 256px; */
-}
-
-.grid:hover {
-    cursor: pointer;
-}
-
-.grid :nth-child(3n + 2) {
-    border-left: var(--border);
-    border-right: var(--border);
-}
-
-.grid :nth-child(n+4):nth-child(-n+6) {
-    border-top: var(--border);
-    border-bottom: var(--border);
-}
-
-.grid-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 96px;
-}
-
-.grid-item:hover {
-    /* cursor: pointer; */
+    border: none;
+    border-bottom: var(--grid-border);
+    background-color: var(--sec-bg-color);
+    color: var(--txt-color);
 }
 
 /* Round Info */
@@ -139,9 +136,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 48px;
-    border: var(--border);
-    border-radius: 24px;
     gap: 48px;
 }
 
@@ -152,13 +146,39 @@ body {
 }
 
 .scoreboard h3 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 }
 
 .scoreboard h2 {
-    font-size: 2.2rem;
+    font-size: 2rem;
 }
 
 .scoreboard .score {
     font-size: 2rem;
+}
+
+/* Button */
+.btn-container {
+    display: flex;
+    height: 96px;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-container button {
+    padding: 8px 12px;
+    border: none;
+    background-color: var(--btn-bg-color);
+    color: var(--sec-txt-color);
+    border-radius: 8px;
+    border: var(--sec-border);
+    box-shadow: var(--shadow);
+}
+
+.btn-container button:hover {
+    cursor: pointer;
+}
+
+.btn-container button:active {
+    box-shadow: var(--shadow-inset);
 }
