@@ -97,9 +97,13 @@ body {
 }
 
 /* Form */
-.form-container {
-    margin-top: 48px;
+.form-container.active, .scoreboard.active, .start-btn.active {
     display: flex;
+}
+
+.form-container {
+    display: none; /* Hidden at default */
+    margin-top: 48px;
     align-items: center;
     justify-content: center;
     gap: 16px;
@@ -133,7 +137,7 @@ body {
 /* Round Info */
 .scoreboard {
     margin-top: 48px;
-    display: flex;
+    display: none; /* Hidden at default */
     justify-content: center;
     align-items: center;
     gap: 48px;
@@ -166,6 +170,7 @@ body {
 }
 
 .btn-container button {
+    display: none;
     padding: 8px 12px;
     border: none;
     background-color: var(--btn-bg-color);

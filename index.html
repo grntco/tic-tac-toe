@@ -32,34 +32,38 @@
                     <div class="grid-item"></div>
                 </div>
             </div>
-            <!-- <div class="form-container">
+            <div class="form-container active" id="form"> 
                 <form action="">
                     <ul>
                         <li>
                             <label for="player1-name">Player 1:</label>
-                            <input type="text" name="player1-name" id="player1-name" autocomplete="off" placeholder="Name"/>
+                            <input type="text" name="player1-name" id="player1-name-input" autocomplete="off" placeholder="Name"/>
                         </li>
                         <li>
                             <label for="player2-name">Player 2:</label>
-                            <input type="text" name="player2-name" id="player2-name" autocomplete="off" placeholder="Name"/>
+                            <input type="text" name="player2-name" id="player2-name-input" autocomplete="off" placeholder="Name"/>
                         </li>
                     </ul>
                 </form>
-            </div> -->
-            <div class="scoreboard card">
+            </div>
+            <div class="scoreboard card" id="scoreboard">
                 <div class="score-container">
-                    <h3>Player One</h3>
+                    <h3 id="player1-heading"></h3>
                     <p class="score "id="player1-score">0</p>
                 </div>
-                <h2 class="round">Round One</h2>
+                <div class="game-info">
+                    <h2 id="round-num" class="round-num">Round</h2>
+                    <p id="status"></p>
+                </div>
                 <div class="score-container">
-                    <h3>Player Two</h3>
+                    <h3 id="player2-heading"></h3>
                     <p class="score" id="player2-score">0</p>
                 </div>
             </div>
         </div>
         <div class="btn-container">
-            <button>Start!</button>
+            <button id="start-btn" class="start-btn">Start!</button>
+            <!-- <button id="reset-btn" class="rest-btn active">Reset</button> -->
         </div>
     </div>
   </body>

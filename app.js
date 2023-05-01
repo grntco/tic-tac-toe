@@ -13,30 +13,33 @@ const gameboard = (() => {
         render();
     }
 
-    return { arr, gridItems, render, reset }; //Don't need to return arr, just doing so for now
+    return { arr, gridItems, render, reset }; //Should I return arr?
 })();
 
 const createPlayer = (name, mark) => { 
     let points = 0;
 
     const placeMark = (e) => {
-        if (!e.target.innerHTML) {
+        if (e.target.classList.contains('grid-item') && !e.target.innerHTML) {
             let index = [...gameboard.gridItems].indexOf(e.target);
             gameboard.arr.splice(index, 1, game.getActivePlayer().mark);
             gameboard.render();
             if (!game.checkPlay(game.getActivePlayer().mark)) {
                 game.switchTurns();
             }
+            game.round += 1;
         }
     }
 
     return { name, mark, points, placeMark }
 };
 
-const player1 = createPlayer('Grant', '<i class="fa-solid fa-x"></i>');
-const player2 = createPlayer('Hal', '<i class="fa-solid fa-o"></i>');
-
 const game = (() => {
+
+    const round = 0;
+
+    const player1 = createPlayer('G', '<i class="fa-solid fa-x"></i>');
+    const player2 = createPlayer('H', '<i class="fa-solid fa-o"></i>');
 
     let activePlayer = player1;
 
@@ -93,9 +96,91 @@ const game = (() => {
         item.addEventListener('click', activePlayer.placeMark);
     });
 
-    return { switchTurns, getActivePlayer, checkPlay }
+    return { round, player1, player2, switchTurns, getActivePlayer, checkPlay }
 })();
 
-// const displayController = () => {
+const displayController = (() => {
+    const formController = () => {
+        const form = document.getElementById('form');
 
-// }
+        const player1Name = document.getElementById('player1-name-input').value;
+        const player2Name = document.getElementById('player2-name-input').value;
+
+        const toggle = () => {
+            form.classList.toggle('active');
+        }
+
+        const checkNames = () => {
+            return player1Name !== "" && player2Name !== "";
+        }
+        return { toggle, player1Name, player2Name, checkNames }
+    }
+
+    const scoreboardController = () => {
+        const scoreboard = document.getElementById('scoreboard');
+        const player1Heading = document.getElementById('player1-heading');
+        const player2Heading = document.getElementById('player2-heading');
+
+        displayNames = () => {
+            player1Heading.textContent = `${formController().player1Name} (X)`
+            player2Heading.textContent = `${formController().player2Name} (O)`
+        }
+        
+        const toggle = () => {
+            scoreboard.classList.toggle('active');
+        }
+
+        const displayScore = () => {
+            const player1Score = document.getElementById('player1-score');
+            const player2Score = document.getElementById('player2-score');
+
+            player1Score.textContent = game.player1.points;
+            player2Score.textContent = game.player2.points;
+        }
+
+        const displayRoundNum = () => {
+            const roundNum = document.getElementById('round-num');
+            roundNum.textContent += ` ${game.round}`;
+        }
+
+        const displayWinner = () => {
+            const status = document.getElementById('status');
+            // if (game.player1.points > game.player2.points)
+        }
+
+        const displayAllContent = () => {
+            displayScore();
+            displayNames();
+            displayRoundNum();
+        }
+
+        return { toggle, displayAllContent }
+    }
+
+    const startBtn = document.getElementById('start-btn');
+
+    const displayBtn = () => {
+        if (formController().checkNames()) { 
+            startBtn.classList.add('active');
+        } else {
+            startBtn.classList.remove('active');
+        };
+    }
+
+    startBtn.addEventListener('click', function() {
+        formController().toggle();
+        scoreboardController().toggle()
+        scoreboardController().displayContent();
+        // display content
+    });
+
+    document.addEventListener('keyup', displayBtn);
+
+    
+
+    // const toggle = (elem) => {
+    //     elem.classList.toggle('active');
+    // }
+    
+    return { formController, scoreboardController };
+})();
