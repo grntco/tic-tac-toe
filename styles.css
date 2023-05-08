@@ -26,17 +26,14 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
+    justify-content: center;
     height: 100vh;
     background: var(--body-bg);
     color: var(--txt-color);
+    position: relative; /* For footer */
 }
 
 /* Header */
-
-.header {
-    margin-top: 48px;
-}
 
 .header h1 {
     font-size: 4rem;
@@ -64,7 +61,6 @@ body {
 }
 
 /* Grid */
-
 .grid-container {
     display: flex;
     justify-content: center;
@@ -171,7 +167,7 @@ body {
     align-items: center;
 }
 
-/* Button */
+/* Buttons */
 .btn-container {
     display: flex;
     height: 96px;
@@ -196,4 +192,17 @@ body {
 
 .btn-container button:active {
     box-shadow: var(--shadow-inset);
+}
+
+/* Footer */
+footer {
+    position: fixed;
+    bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+footer a {
+    color: var(--txt-color);
 }
