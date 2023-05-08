@@ -205,6 +205,7 @@ const displayController = (() => {
         formController().toggle();
         scoreboardController().toggle();
         playAgainBtn.classList.remove('active');
+        startBtn.classList.add('active');
     });
 
     return { toggleGridItems, formController, scoreboardController, playAgainBtn };
