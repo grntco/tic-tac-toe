@@ -20,14 +20,17 @@ const createPlayer = (name, mark) => {
     let points = 0;
 
     const placeMark = (e) => {
-        if (e.target.classList.contains('grid-item') && !e.target.innerHTML) {
-            let index = [...gameboard.gridItems].indexOf(e.target);
-            gameboard.arr.splice(index, 1, game.getActivePlayer().mark);
-            gameboard.render();
-            if (!game.checkPlay(game.getActivePlayer().mark)) {
-                game.switchTurns();
+        if (e.target.classList.contains('grid-item')) {
+            if (!e.target.classList.contains('disabled')) {
+                if (!e.target.innerHTML) {
+                    let index = [...gameboard.gridItems].indexOf(e.target);
+                    gameboard.arr.splice(index, 1, game.getActivePlayer().mark);
+                    gameboard.render();
+                    if (!game.checkPlay(game.getActivePlayer().mark)) {
+                        game.switchTurns();
+                    }
+                }
             }
-            game.round += 1;
         }
     }
 
@@ -36,10 +39,10 @@ const createPlayer = (name, mark) => {
 
 const game = (() => {
 
-    const round = 0;
+    const player1 = createPlayer('Player 1', '<i class="fa-solid fa-x"></i>');
+    const player2 = createPlayer('Player 2', '<i class="fa-solid fa-o"></i>');
 
-    const player1 = createPlayer('G', '<i class="fa-solid fa-x"></i>');
-    const player2 = createPlayer('H', '<i class="fa-solid fa-o"></i>');
+    const round = 0;
 
     let activePlayer = player1;
 
@@ -75,16 +78,20 @@ const game = (() => {
                 return false
             } else {
                 if (roundTie) {
-                    console.log(`Tie round!`)
+                    displayController.scoreboardController().updateStatus(`Tie round.`);
                 } else if (roundWon) {
                     activePlayer.points += 1;
                     if (isGameOver()) {
-                        console.log(`${activePlayer.name} wins the game!`);
+                        displayController.toggleGridItems();
+                        displayController.playAgainBtn.classList.add('active');
+                        displayController.scoreboardController().updateStatus(`${activePlayer.name} wins the game!`);
                     } else {
-                        console.log(`${activePlayer.name} wins this round! Their score is now ${activePlayer.points}`);
+                        displayController.scoreboardController().updateStatus(`${activePlayer.name} wins this round.`);
                     }
                 }
+                game.round += 1;
                 gameboard.reset();
+                displayController.scoreboardController().updateDisplay();
                 return true;
             }
         }
@@ -100,6 +107,12 @@ const game = (() => {
 })();
 
 const displayController = (() => {
+    const toggleGridItems = () => {
+        gameboard.gridItems.forEach(item => {
+            item.classList.toggle('disabled');
+        });
+    }
+
     const formController = () => {
         const form = document.getElementById('form');
 
@@ -113,15 +126,16 @@ const displayController = (() => {
         const checkNames = () => {
             return player1Name !== "" && player2Name !== "";
         }
+
         return { toggle, player1Name, player2Name, checkNames }
-    }
+    };
 
     const scoreboardController = () => {
         const scoreboard = document.getElementById('scoreboard');
         const player1Heading = document.getElementById('player1-heading');
         const player2Heading = document.getElementById('player2-heading');
 
-        displayNames = () => {
+        const displayNames = () => {
             player1Heading.textContent = `${formController().player1Name} (X)`
             player2Heading.textContent = `${formController().player2Name} (O)`
         }
@@ -138,49 +152,60 @@ const displayController = (() => {
             player2Score.textContent = game.player2.points;
         }
 
-        const displayRoundNum = () => {
+        const displayRoundNum = (num) => {
             const roundNum = document.getElementById('round-num');
-            roundNum.textContent += ` ${game.round}`;
+            roundNum.textContent = `Round ${num}`;
         }
 
-        const displayWinner = () => {
+        const updateStatus = (str) => {
             const status = document.getElementById('status');
-            // if (game.player1.points > game.player2.points)
+            status.textContent = str;
         }
 
-        const displayAllContent = () => {
+        const updateDisplay = () => {
             displayScore();
             displayNames();
-            displayRoundNum();
+            displayRoundNum(game.round);
         }
 
-        return { toggle, displayAllContent }
+        return { toggle, updateStatus, updateDisplay }
     }
 
-    const startBtn = document.getElementById('start-btn');
+    // const btnController = () => {
+        
+    // }
 
-    const displayBtn = () => {
-        if (formController().checkNames()) { 
+    const startBtn = document.getElementById('start-btn');
+    const playAgainBtn = document.getElementById('play-again-btn');
+
+    startBtn.addEventListener('click', function() {
+        game.player1.name = formController().player1Name
+        game.player2.name = formController().player2Name;
+        toggleGridItems();
+        formController().toggle();
+        scoreboardController().toggle()
+        scoreboardController().updateDisplay();
+        startBtn.classList.remove('active');
+    });
+
+    document.addEventListener('keyup', function() {
+        if (formController().checkNames()) {
             startBtn.classList.add('active');
         } else {
             startBtn.classList.remove('active');
-        };
-    }
-
-    startBtn.addEventListener('click', function() {
-        formController().toggle();
-        scoreboardController().toggle()
-        scoreboardController().displayContent();
-        // display content
+        }
     });
 
-    document.addEventListener('keyup', displayBtn);
+    playAgainBtn.addEventListener('click', function() {
+        game.player1.points = 0;
+        game.player2.points = 0;
+        game.round = 0;
+        scoreboardController().updateStatus('');
+        gameboard.reset();
+        formController().toggle();
+        scoreboardController().toggle();
+        playAgainBtn.classList.remove('active');
+    });
 
-    
-
-    // const toggle = (elem) => {
-    //     elem.classList.toggle('active');
-    // }
-    
-    return { formController, scoreboardController };
+    return { toggleGridItems, formController, scoreboardController, playAgainBtn };
 })();

@@ -21,15 +21,15 @@
         <div class="board">
             <div class="grid-container">
                 <div class="grid">
-                    <div class="grid-item"></div>
-                    <div class="grid-item"></div>
-                    <div class="grid-item"></div>
-                    <div class="grid-item"></div>
-                    <div class="grid-item"></div>
-                    <div class="grid-item"></div>
-                    <div class="grid-item"></div>
-                    <div class="grid-item"></div>
-                    <div class="grid-item"></div>
+                    <div class="grid-item disabled"></div>
+                    <div class="grid-item disabled"></div>
+                    <div class="grid-item disabled"></div>
+                    <div class="grid-item disabled"></div>
+                    <div class="grid-item disabled"></div>
+                    <div class="grid-item disabled"></div>
+                    <div class="grid-item disabled"></div>
+                    <div class="grid-item disabled"></div>
+                    <div class="grid-item disabled"></div>
                 </div>
             </div>
             <div class="form-container active" id="form"> 
@@ -37,11 +37,11 @@
                     <ul>
                         <li>
                             <label for="player1-name">Player 1:</label>
-                            <input type="text" name="player1-name" id="player1-name-input" autocomplete="off" placeholder="Name"/>
+                            <input type="text" name="player1-name" id="player1-name-input" autocomplete="off" placeholder="Type name"/>
                         </li>
                         <li>
                             <label for="player2-name">Player 2:</label>
-                            <input type="text" name="player2-name" id="player2-name-input" autocomplete="off" placeholder="Name"/>
+                            <input type="text" name="player2-name" id="player2-name-input" autocomplete="off" placeholder="Type name"/>
                         </li>
                     </ul>
                 </form>
@@ -52,7 +52,7 @@
                     <p class="score "id="player1-score">0</p>
                 </div>
                 <div class="game-info">
-                    <h2 id="round-num" class="round-num">Round</h2>
+                    <h2 id="round-num" class="round-num"></h2>
                     <p id="status"></p>
                 </div>
                 <div class="score-container">
@@ -63,7 +63,7 @@
         </div>
         <div class="btn-container">
             <button id="start-btn" class="start-btn">Start!</button>
-            <!-- <button id="reset-btn" class="rest-btn active">Reset</button> -->
+            <button id="play-again-btn" class="play-again-btn">Play Again?</button>
         </div>
     </div>
   </body>
