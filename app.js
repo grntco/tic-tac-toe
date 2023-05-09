@@ -56,7 +56,8 @@ const game = (() => {
     }
 
     const switchTurns = () => {
-        activePlayer = activePlayer === player1 ? player2 : player1
+        activePlayer = activePlayer === player1 ? player2 : player1;
+        displayController.scoreboardController().update();
     }
 
     const getActivePlayer = () => activePlayer;
@@ -164,11 +165,17 @@ const displayController = (() => {
             gameStatus.textContent = game.status;
         }
 
+        const _displayTurn = () => {
+            const playerTurn = document.getElementById('player-turn');
+            playerTurn.textContent = `${game.getActivePlayer().name}'s turn.`
+        }
+
         const update = () => {
             _displayScore();
             _displayNames();
             _displayRoundNum();
             _displayGameStatus();
+            _displayTurn();
         }
 
         return { scoreboard, update }

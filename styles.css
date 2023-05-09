@@ -167,6 +167,11 @@ body {
     align-items: center;
 }
 
+/* .player-turn {
+    position: absolute;
+    bottom: 0;
+} */
+
 /* Buttons */
 .btn-container {
     display: flex;
