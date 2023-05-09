@@ -41,8 +41,13 @@ const game = (() => {
 
     const player1 = createPlayer('Player 1', '<i class="fa-solid fa-x"></i>');
     const player2 = createPlayer('Player 2', '<i class="fa-solid fa-o"></i>');
+    let round = 0;
 
-    const round = 0;
+    const reset = () => {
+        player1.points = 0;
+        player2.points = 0;
+        round = 0;
+    }
 
     // To start the game
     let activePlayer = player1;
@@ -104,7 +109,7 @@ const game = (() => {
         item.addEventListener('click', activePlayer.placeMark);
     });
 
-    return { round, player1, player2, switchTurns, getActivePlayer, checkPlay }
+    return { reset, round, player1, player2, switchTurns, getActivePlayer, checkPlay }
 })();
 
 const displayController = (() => {
@@ -120,23 +125,19 @@ const displayController = (() => {
         game.player1.name = document.getElementById('player1-name-input').value;
         game.player2.name = document.getElementById('player2-name-input').value;
 
-        const toggle = () => {
-            form.classList.toggle('active');
-        }
-
         const checkNames = () => {
             return game.player1.name !== "" && game.player2.name !== "";
         }
 
-        return { toggle, checkNames }
+        return { form, checkNames }
     };
 
     const scoreboardController = () => {
         const scoreboard = document.getElementById('scoreboard');
 
-        const toggle = () => {
-            scoreboard.classList.toggle('active');
-        }
+        // const toggle = () => {
+        //     scoreboard.classList.toggle('active');
+        // }
 
         const displayNames = () => {
             const player1Heading = document.getElementById('player1-heading');
@@ -170,7 +171,7 @@ const displayController = (() => {
             displayRoundNum(game.round);
         }
 
-        return { toggle, displayRoundStatus, update }
+        return { scoreboard, displayRoundStatus, update }
     }
 
     // const btnController = () => {
@@ -182,8 +183,8 @@ const displayController = (() => {
 
     startBtn.addEventListener('click', function() {
         toggleGridItems();
-        formController().toggle();
-        scoreboardController().toggle()
+        formController().form.classList.toggle('active');
+        scoreboardController().scoreboard.classList.toggle('active');
         scoreboardController().update();
         startBtn.classList.remove('active');
     });
@@ -197,13 +198,11 @@ const displayController = (() => {
     });
 
     playAgainBtn.addEventListener('click', function() {
-        game.player1.points = 0;
-        game.player2.points = 0;
-        game.round = 0;
-        scoreboardController().displayRoundStatus('');
+        game.reset();
         gameboard.reset();
-        formController().toggle();
-        scoreboardController().toggle();
+        scoreboardController().displayRoundStatus('');
+        formController().form.classList.toggle('active');
+        scoreboardController().scoreboard.classList.toggle('active');
         playAgainBtn.classList.remove('active');
         startBtn.classList.add('active');
     });
