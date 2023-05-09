@@ -46,7 +46,7 @@ const game = (() => {
     const reset = () => {
         player1.points = 0;
         player2.points = 0;
-        round = 0;
+        game.round = 0;
     }
 
     // To start the game
@@ -135,10 +135,6 @@ const displayController = (() => {
     const scoreboardController = () => {
         const scoreboard = document.getElementById('scoreboard');
 
-        // const toggle = () => {
-        //     scoreboard.classList.toggle('active');
-        // }
-
         const displayNames = () => {
             const player1Heading = document.getElementById('player1-heading');
             const player2Heading = document.getElementById('player2-heading');
@@ -155,9 +151,9 @@ const displayController = (() => {
             player2Score.textContent = game.player2.points;
         }
 
-        const displayRoundNum = (num) => {
+        const displayRoundNum = () => {
             const roundNum = document.getElementById('round-num');
-            roundNum.textContent = `Round ${num}`;
+            roundNum.textContent = `Round ${game.round}`;
         }
 
         const displayRoundStatus = (str) => {
@@ -168,7 +164,7 @@ const displayController = (() => {
         const update = () => {
             displayScore();
             displayNames();
-            displayRoundNum(game.round);
+            displayRoundNum();
         }
 
         return { scoreboard, displayRoundStatus, update }
