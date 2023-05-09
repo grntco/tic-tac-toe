@@ -44,6 +44,7 @@ const game = (() => {
 
     const round = 0;
 
+    // To start the game
     let activePlayer = player1;
 
     const switchTurns = () => {
@@ -75,7 +76,7 @@ const game = (() => {
 
         const isRoundOver = () => {
             if (!roundWon && !roundTie) {
-                return false
+                return false;
             } else {
                 if (roundTie) {
                     displayController.scoreboardController().updateStatus(`Tie round.`);
