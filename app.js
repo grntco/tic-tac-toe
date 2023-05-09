@@ -79,20 +79,20 @@ const game = (() => {
                 return false;
             } else {
                 if (roundTie) {
-                    displayController.scoreboardController().updateStatus(`Tie round.`);
+                    displayController.scoreboardController().displayRoundStatus(`Tie round.`);
                 } else if (roundWon) {
                     activePlayer.points += 1;
                     if (isGameOver()) {
                         displayController.toggleGridItems();
                         displayController.playAgainBtn.classList.add('active');
-                        displayController.scoreboardController().updateStatus(`${activePlayer.name} wins the game!`);
+                        displayController.scoreboardController().displayRoundStatus(`${activePlayer.name} wins the game!`);
                     } else {
-                        displayController.scoreboardController().updateStatus(`${activePlayer.name} wins this round.`);
+                        displayController.scoreboardController().displayRoundStatus(`${activePlayer.name} wins this round.`);
                     }
                 }
                 game.round += 1;
                 gameboard.reset();
-                displayController.scoreboardController().updateDisplay();
+                displayController.scoreboardController().update();
                 return true;
             }
         }
@@ -117,32 +117,33 @@ const displayController = (() => {
     const formController = () => {
         const form = document.getElementById('form');
 
-        const player1Name = document.getElementById('player1-name-input').value;
-        const player2Name = document.getElementById('player2-name-input').value;
+        game.player1.name = document.getElementById('player1-name-input').value;
+        game.player2.name = document.getElementById('player2-name-input').value;
 
         const toggle = () => {
             form.classList.toggle('active');
         }
 
         const checkNames = () => {
-            return player1Name !== "" && player2Name !== "";
+            return game.player1.name !== "" && game.player2.name !== "";
         }
 
-        return { toggle, player1Name, player2Name, checkNames }
+        return { toggle, checkNames }
     };
 
     const scoreboardController = () => {
         const scoreboard = document.getElementById('scoreboard');
-        const player1Heading = document.getElementById('player1-heading');
-        const player2Heading = document.getElementById('player2-heading');
 
-        const displayNames = () => {
-            player1Heading.textContent = `${formController().player1Name} (X)`
-            player2Heading.textContent = `${formController().player2Name} (O)`
-        }
-        
         const toggle = () => {
             scoreboard.classList.toggle('active');
+        }
+
+        const displayNames = () => {
+            const player1Heading = document.getElementById('player1-heading');
+            const player2Heading = document.getElementById('player2-heading');
+
+            player1Heading.textContent = `${game.player1.name} (X)`;
+            player2Heading.textContent = `${game.player2.name} (O)`;
         }
 
         const displayScore = () => {
@@ -158,18 +159,18 @@ const displayController = (() => {
             roundNum.textContent = `Round ${num}`;
         }
 
-        const updateStatus = (str) => {
+        const displayRoundStatus = (str) => {
             const status = document.getElementById('status');
             status.textContent = str;
         }
 
-        const updateDisplay = () => {
+        const update = () => {
             displayScore();
             displayNames();
             displayRoundNum(game.round);
         }
 
-        return { toggle, updateStatus, updateDisplay }
+        return { toggle, displayRoundStatus, update }
     }
 
     // const btnController = () => {
@@ -180,12 +181,10 @@ const displayController = (() => {
     const playAgainBtn = document.getElementById('play-again-btn');
 
     startBtn.addEventListener('click', function() {
-        game.player1.name = formController().player1Name
-        game.player2.name = formController().player2Name;
         toggleGridItems();
         formController().toggle();
         scoreboardController().toggle()
-        scoreboardController().updateDisplay();
+        scoreboardController().update();
         startBtn.classList.remove('active');
     });
 
@@ -201,7 +200,7 @@ const displayController = (() => {
         game.player1.points = 0;
         game.player2.points = 0;
         game.round = 0;
-        scoreboardController().updateStatus('');
+        scoreboardController().displayRoundStatus('');
         gameboard.reset();
         formController().toggle();
         scoreboardController().toggle();
