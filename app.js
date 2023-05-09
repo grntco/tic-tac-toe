@@ -186,7 +186,7 @@ const displayController = (() => {
     });
 
     document.addEventListener('keyup', function() {
-        if (formController().checkNames()) {
+        if (formController().checkNames() && !playAgainBtn.classList.contains('active')) {
             startBtn.classList.add('active');
         } else {
             startBtn.classList.remove('active');
