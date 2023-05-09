@@ -42,11 +42,13 @@ const game = (() => {
     const player1 = createPlayer('Player 1', '<i class="fa-solid fa-x"></i>');
     const player2 = createPlayer('Player 2', '<i class="fa-solid fa-o"></i>');
     let round = 0;
+    let status = '';
 
     const reset = () => {
         player1.points = 0;
         player2.points = 0;
         game.round = 0;
+        game.status = '';
     }
 
     // To start the game
@@ -84,15 +86,15 @@ const game = (() => {
                 return false;
             } else {
                 if (roundTie) {
-                    displayController.scoreboardController().displayRoundStatus(`Tie round.`);
+                    game.status = 'Tie round';
                 } else if (roundWon) {
                     activePlayer.points += 1;
                     if (isGameOver()) {
                         displayController.toggleGridItems();
                         displayController.playAgainBtn.classList.add('active');
-                        displayController.scoreboardController().displayRoundStatus(`${activePlayer.name} wins the game!`);
+                        game.status = `${activePlayer.name} wins the game!`;
                     } else {
-                        displayController.scoreboardController().displayRoundStatus(`${activePlayer.name} wins this round.`);
+                        game.status = `${activePlayer.name} wins this round.`;
                     }
                 }
                 game.round += 1;
@@ -135,7 +137,7 @@ const displayController = (() => {
     const scoreboardController = () => {
         const scoreboard = document.getElementById('scoreboard');
 
-        const displayNames = () => {
+        const _displayNames = () => {
             const player1Heading = document.getElementById('player1-heading');
             const player2Heading = document.getElementById('player2-heading');
 
@@ -143,7 +145,7 @@ const displayController = (() => {
             player2Heading.textContent = `${game.player2.name} (O)`;
         }
 
-        const displayScore = () => {
+        const _displayScore = () => {
             const player1Score = document.getElementById('player1-score');
             const player2Score = document.getElementById('player2-score');
 
@@ -151,23 +153,24 @@ const displayController = (() => {
             player2Score.textContent = game.player2.points;
         }
 
-        const displayRoundNum = () => {
+        const _displayRoundNum = () => {
             const roundNum = document.getElementById('round-num');
             roundNum.textContent = `Round ${game.round}`;
         }
 
-        const displayRoundStatus = (str) => {
-            const status = document.getElementById('status');
-            status.textContent = str;
+        const _displayGameStatus = () => {
+            const gameStatus = document.getElementById('game-status');
+            gameStatus.textContent = game.status;
         }
 
         const update = () => {
-            displayScore();
-            displayNames();
-            displayRoundNum();
+            _displayScore();
+            _displayNames();
+            _displayRoundNum();
+            _displayGameStatus();
         }
 
-        return { scoreboard, displayRoundStatus, update }
+        return { scoreboard, update }
     }
 
     // const btnController = () => {
@@ -196,7 +199,6 @@ const displayController = (() => {
     playAgainBtn.addEventListener('click', function() {
         game.reset();
         gameboard.reset();
-        scoreboardController().displayRoundStatus('');
         formController().form.classList.toggle('active');
         scoreboardController().scoreboard.classList.toggle('active');
         playAgainBtn.classList.remove('active');
