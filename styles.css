@@ -9,15 +9,14 @@
 
 :root {
     --grid-border: 3px solid #fafafa;
-    /* --border: 3px solid #3f3f46; */
     --sec-border: 3px solid #09090b;
     --body-bg: #4d7c0f;
     --sec-bg-color: #3f3f46;
     --input-bg-color: #71717a;
+    --btn-bg-color: #fafafa;
     --board-bg-color: #987554;
     --txt-color: #fafafa;
     --sec-txt-color: #3f3f46;
-    --btn-bg-color: #fafafa;
     --shadow: 2px 4px 8px rgba(0, 0, 0, 0.5);
     --shadow-inset: inset 0px 2px 10px 2px rgba(0, 0, 0, 0.5);
 }
@@ -26,14 +25,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
     background: var(--body-bg);
     color: var(--txt-color);
     position: relative; /* For footer */
 }
 
 /* Header */
-
 .header {
     margin-top: 48px;
 }
@@ -55,7 +52,7 @@ body {
 
 .board {
     min-height: 548px;
-    min-width: 720px;
+    width: 720px;
     padding: 48px;
     border: var(--sec-border);
     border-radius: 12px;
@@ -208,4 +205,15 @@ footer {
 
 footer a {
     color: var(--txt-color);
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 767px) {
+    .header h1 {
+        font-size: 2.5rem;
+    }
+
+    .board {
+        width: 100%;
+    }
 }

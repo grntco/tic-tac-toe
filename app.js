@@ -13,7 +13,7 @@ const gameboard = (() => {
         render();
     }
 
-    return { arr, gridItems, render, reset }; //Should I return arr?
+    return { arr, gridItems, render, reset };
 })();
 
 const createPlayer = (name, mark) => { 
@@ -41,8 +41,11 @@ const game = (() => {
 
     const player1 = createPlayer('Player 1', '<i class="fa-solid fa-x"></i>');
     const player2 = createPlayer('Player 2', '<i class="fa-solid fa-o"></i>');
+    
+    // To start the game
     let round = 0;
     let status = '';
+    let activePlayer = player1;
 
     const reset = () => {
         player1.points = 0;
@@ -50,9 +53,6 @@ const game = (() => {
         game.round = 0;
         game.status = '';
     }
-
-    // To start the game
-    let activePlayer = player1;
 
     const switchTurns = () => {
         activePlayer = activePlayer === player1 ? player2 : player1
@@ -77,24 +77,24 @@ const game = (() => {
         let roundWon = winningPatterns.includes(true);
         let roundTie = winningPatterns.every(pattern => pattern === false) && board.every(mark => mark !== '');
 
-        const isGameOver = () => {
+        const _isGameOver = () => {
             return activePlayer.points === 3;
         };
 
-        const isRoundOver = () => {
+        const _isRoundOver = () => {
             if (!roundWon && !roundTie) {
                 return false;
             } else {
                 if (roundTie) {
-                    game.status = 'Tie round';
+                    game.status = 'Tie round.';
                 } else if (roundWon) {
                     activePlayer.points += 1;
-                    if (isGameOver()) {
+                    if (_isGameOver()) {
                         displayController.toggleGridItems();
                         displayController.playAgainBtn.classList.add('active');
                         game.status = `${activePlayer.name} wins the game!`;
                     } else {
-                        game.status = `${activePlayer.name} wins this round.`;
+                        game.status = `${activePlayer.name} wins the round.`;
                     }
                 }
                 game.round += 1;
@@ -104,14 +104,14 @@ const game = (() => {
             }
         }
 
-        return isRoundOver();
+        return _isRoundOver();
     }
 
     gameboard.gridItems.forEach(item => {
         item.addEventListener('click', activePlayer.placeMark);
     });
 
-    return { reset, round, player1, player2, switchTurns, getActivePlayer, checkPlay }
+    return { reset, round, status, player1, player2, switchTurns, getActivePlayer, checkPlay }
 })();
 
 const displayController = (() => {
@@ -172,10 +172,6 @@ const displayController = (() => {
 
         return { scoreboard, update }
     }
-
-    // const btnController = () => {
-        
-    // }
 
     const startBtn = document.getElementById('start-btn');
     const playAgainBtn = document.getElementById('play-again-btn');
