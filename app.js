@@ -52,6 +52,7 @@ const game = (() => {
         player2.points = 0;
         game.round = 0;
         game.status = '';
+        activePlayer = player1;
     }
 
     const switchTurns = () => {
